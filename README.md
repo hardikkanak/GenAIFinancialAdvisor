@@ -4,6 +4,13 @@
 ## 📈 Project Objective
 This Django project delivers **AI-based financial advice** tailored to user inputs by utilizing profile embeddings, vector search, prompt engineering, and AI-generated responses.
 
+Select Input
+![alt text](<ScreenShot Tool -20250426224232.png>)
+
+Output
+![alt text](<ScreenShot Tool -20250426224416.png>)
+
+
 ## 🔥 Project Flow
 
 ```
