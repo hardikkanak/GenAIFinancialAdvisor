@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Header Bar -->
+<div class="header-bar finance-header">
+    <h1>AI Financial Advisor</h1>
+
+    {% if user.is_authenticated %}
+        <div class="header-actions">
+            <span class="welcome-text">Welcome, {{ user.email }}</span>
+           
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-link logout-button">Logout</button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Two-Column Content Layout -->
+<div class="content-container">
+
+    <!-- Left: Placeholder for history -->
+    <div class="form-data">
+    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Your Past Selections</h2>
+
+    {% if recent_history %}
+        <ul>
+            {% for item in recent_history %}
+                <li style="margin-bottom: 1rem;">
+                    <strong>{{ item.created_at|date:"M d, Y H:i" }}</strong><br>
+                    Profile match with Dataset : {{ item.similar_profiles_percentage }} %
+                    <br>
+                    <a href="{% url 'history_detail' item.id %}">View</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="font-size: 0.95rem; color: #555;">No recent history found. Submit the form to get started!</p>
+    {% endif %}
+</div>
+    <!-- Right: Advisor Form -->
+    <form method="post" class="selection-form" id="advisor-form" action="{% url 'results' %}">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+
+        <button type="submit" id="submit-button">Get Financial Advice</button>
+    </form>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const form = document.getElementById('advisor-form');
+    const submitButton = document.getElementById('submit-button');
+
+    form.addEventListener('submit', function () {
+        submitButton.disabled = true;
+        submitButton.innerText = 'Loading...';
+    });
+</script>
+{% endblock %}

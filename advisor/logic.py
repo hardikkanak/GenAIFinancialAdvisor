@@ -17,6 +17,7 @@ class FinancialAdvisor:
     embedding_model = None
     client = None
     vector_db = None
+    total_profiles = None
     def __init__(self):
         # Initialize OpenAI client
         self.client = OpenAI(
@@ -32,6 +33,8 @@ class FinancialAdvisor:
 
         # Fill missing values
         df.fillna("Unknown", inplace=True)
+
+        self.total_profiles = len(df)
 
         # Text embedding model
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -114,6 +117,10 @@ class FinancialAdvisor:
         Structure your response with clear headings and bullet points.
         All data retrun as proper blog article and HTML formate.
         Totla 750 words report only.
+        Contact for more details advice: 
+        contact@financialadvisor.com
+        www.financialadvisor.com
+        +44 77123 45689
         """
         
         print("AI api call")
@@ -167,9 +174,10 @@ class FinancialAdvisor:
         # filename = Path(f"advice_data.html")
         # with open(filename, "w", encoding="utf-8") as file:
         #     file.write(advice)
-        
+        similar_profiles_percentage = round((len(similar_profiles) / self.total_profiles) * 100, 2)
         return {
             'advice': advice,
             'similar_profiles': similar_profiles,
+            'similar_profiles_percentage': similar_profiles_percentage,
             'user_profile': user_profile
         }

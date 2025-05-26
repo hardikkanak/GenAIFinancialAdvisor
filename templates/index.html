@@ -9,9 +9,20 @@
 </head>
 <body>
     <div class="app-container">
-        <h1>AI Financial Advisor</h1>
+        <div class="header">
+            <h1>AI Financial Advisor</h1>
+
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
         
-        <form method="post" class="selection-form" id="advisor-form">
+        <form method="post" class="selection-form" id="advisor-form" action="{% url 'results' %}">
             {% csrf_token %}
             
             {% for field in form %}
@@ -36,3 +47,4 @@
     </script>
 </body>
 </html>
+    

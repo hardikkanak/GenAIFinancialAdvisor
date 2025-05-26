@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load advice_filters %}
+
+{% block content %}
+<div class="header-bar finance-header">
+    <h1>AI Financial Advisor</h1>
+</div>
+
+<div class="content-container">
+    <div class="form-data">
+        <h2>Your Selections</h2>
+        <ul>
+            {% for key, value in form_data.items %}
+                <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="advice-container">
+        <div style="font-weight: bold; font-size: 1.1rem; color: var(--secondary-color); margin-bottom: 1rem;">
+            Profile Match: {{ similar_profiles_percentage }}%
+        </div>
+
+        <div class="formatted-advice" style="line-height: 1.6; font-size: 1rem;">
+            {{ advice|format_advice }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,11 +4,14 @@
 ## 📈 Project Objective
 This Django project delivers **AI-based financial advice** tailored to user inputs by utilizing profile embeddings, vector search, prompt engineering, and AI-generated responses.
 
-Select Input
-![alt text](<ScreenShot Tool -20250426224232.png>)
+Login
+![alt text](<image1.png>)
+
+Input
+![alt text](<image2.png>)
 
 Output
-![alt text](<ScreenShot Tool -20250426224416.png>)
+![alt text](<image3.png>)
 
 
 ## 🔥 Project Flow
@@ -93,6 +96,13 @@ ai_financial_advisor/
    ```
    http://127.0.0.1:8000/
    ```
+   Admin 
+   admin@yopmail.com
+   Admin@123
+
+   User
+   er.hardiksagar@gmail.com
+   User@123#123
 
 ## ✅ Future Improvements
 - Add user authentication

@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth import authenticate
+from .models import CustomUser
 
 class FinancialAdviceForm(forms.Form):
     AGE_CHOICES = [
@@ -58,3 +60,25 @@ class FinancialAdviceForm(forms.Form):
     duration = forms.ChoiceField(choices=DURATION_CHOICES, initial='3-5 years')
     expect = forms.ChoiceField(choices=EXPECT_CHOICES, initial='20%-30%')
     avenue = forms.ChoiceField(choices=AVENUE_CHOICES, initial='Mutual Fund')
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        user = authenticate(email=self.cleaned_data['email'], password=self.cleaned_data['password'])
+        if not user:
+            raise forms.ValidationError("Invalid email or password")
+        return self.cleaned_data
+class SignUpForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email']
+
+    def clean(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['confirm_password']:
+            raise forms.ValidationError("Passwords do not match")
+        return cd

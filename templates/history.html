@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Header Bar -->
+<div class="header-bar finance-header">
+    <h1>AI Financial Advisor</h1>
+
+    {% if user.is_authenticated %}
+        <div class="header-actions">
+            <span class="welcome-text">Welcome, {{ user.email }}</span>
+            <a href="{% url 'history' %}" class="btn-link">History</a>
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-link logout-button">Logout</button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Two-Column Content Layout -->
+<div class="content-container">
+
+ <!-- Left: User selections -->
+    <div class="form-data">
+        <h2 style="color: var(--primary-color); margin-bottom: 1rem;">Your Selections</h2>
+        <ul>
+            {% for key, value in form_data.items %}
+                <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% load advice_filters %}
+
+    <!-- Right: AI-generated advice -->
+    <div class="advice-container">
+        <div style="font-weight: bold; font-size: 1.1rem; color: var(--secondary-color); margin-bottom: 1rem;">
+            Profile Match: {{ similar_profiles_percentage }}%
+        </div>
+        <div class="formatted-advice" style="line-height: 1.6; font-size: 1rem;">
+            {{ advice|format_advice }}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
